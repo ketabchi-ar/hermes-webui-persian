@@ -1,0 +1,13 @@
+{
+  "id": "vazir-persian-rtl",
+  "name": "Persian Vazirmatn & RTL Support",
+  "version": "1.0.0",
+  "description": "Applies Vazirmatn font globally and provides smart RTL layout for Persian text while keeping code blocks and UI intact.",
+  "enabled": true,
+  "stylesheets": [
+    "vazir-rtl.css"
+  ],
+  "scripts": [
+    "vazir-rtl.js"
+  ]
+}
