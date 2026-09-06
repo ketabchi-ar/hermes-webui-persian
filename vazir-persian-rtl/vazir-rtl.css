@@ -1,9 +1,7 @@
 /* ==========================================================================
-   Hermes WebUI - Persian RTL & Vazirmatn Font Extension
-   Persistent across WebUI updates & restarts
+   Hermes WebUI - Persian RTL & Vazirmatn Pro Extension
    ========================================================================== */
 
-/* 1. @font-face declarations for Vazirmatn */
 @font-face {
   font-family: 'Vazirmatn';
   src: url('/extensions/vazir-persian-rtl/fonts/Vazirmatn-Regular.woff2') format('woff2');
@@ -36,60 +34,44 @@
   font-display: swap;
 }
 
-/* 2. Global Typography Override */
 :root {
   --font-vazir: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --font-ui: var(--font-vazir) !important;
   --font-conversation: var(--font-vazir) !important;
+}
+
+/* Force global Persian typography */
+body, button, input, select, textarea,
+.msg-body, .composer-wrap, .composer-box,
+textarea#msg, .session-item, .session-title,
+.sidebar, .modal-content, .panel-content,
+.toast, .tooltip, .app-titlebar, .tab-item,
+.dropdown-menu, .settings-row {
   font-family: var(--font-vazir) !important;
 }
 
-/* Force Vazirmatn across skins and specific UI elements */
-body,
-button,
-input,
-select,
-textarea,
-.msg-body,
-.composer-wrap,
-.composer-box,
-textarea#msg,
-.session-item,
-.session-title,
-.sidebar,
-.modal-content,
-.panel-content,
-.toast,
-.tooltip,
-.app-titlebar {
-  font-family: var(--font-vazir) !important;
-}
-
-/* 3. Smart RTL & Bidirectional Text Support */
-
-/* Auto text direction for chat message bodies and paragraphs */
+/* Smart Bidirectional layout */
 .msg-body,
 .msg-body p,
 .msg-body li,
 .msg-body blockquote,
-.msg-body h1,
-.msg-body h2,
-.msg-body h3,
-.msg-body h4,
-.msg-body h5,
-.msg-body h6,
+.msg-body h1, .msg-body h2, .msg-body h3, .msg-body h4, .msg-body h5, .msg-body h6,
 .msg-body div:not(.code-block):not(.code-header):not(.terminal-container):not(.katex):not(.katex-display) {
   unicode-bidi: plaintext;
   text-align: start;
 }
 
-/* RTL-specific tweaks for lists when in RTL context */
+.msg-body[dir="rtl"],
+.msg-rtl,
+[dir="rtl"] .msg-body {
+  direction: rtl;
+  text-align: right;
+}
+
 .msg-body[dir="rtl"] ul,
 .msg-body[dir="rtl"] ol,
 .msg-rtl ul,
-.msg-rtl ol,
-[dir="rtl"] .msg-body ul,
-[dir="rtl"] .msg-body ol {
+.msg-rtl ol {
   padding-right: 1.5em;
   padding-left: 0;
   direction: rtl;
@@ -97,8 +79,7 @@ textarea#msg,
 }
 
 .msg-body[dir="rtl"] blockquote,
-.msg-rtl blockquote,
-[dir="rtl"] .msg-body blockquote {
+.msg-rtl blockquote {
   border-right: 3px solid var(--accent, #B8860B);
   border-left: none;
   padding-right: 0.85em;
@@ -107,14 +88,13 @@ textarea#msg,
   text-align: right;
 }
 
-/* Tables in Persian context */
 .msg-body[dir="rtl"] table,
 .msg-rtl table {
   direction: rtl;
   text-align: right;
 }
 
-/* 4. Composer & Form Inputs Auto-RTL */
+/* Composer Auto RTL */
 textarea#msg,
 .composer-box textarea,
 input[type="text"],
@@ -123,40 +103,46 @@ input[type="search"] {
   text-align: start;
 }
 
-/* 5. Strict LTR Isolation for Code, Terminal, Math, and Mono Blocks */
-pre,
-code,
-kbd,
-samp,
-.xterm,
-.xterm *,
-.terminal-window,
-.terminal-container,
-.code-block,
-.code-header,
-.prism-code,
-.katex,
-.katex *,
-.katex-display,
-.katex-display *,
-[class*="language-"],
-pre code,
-.font-mono,
-.app-titlebar-sub,
-.model-badge,
-.token-count,
-.timestamp {
+/* Absolute Code & Terminal LTR Isolation */
+pre, code, kbd, samp,
+.xterm, .xterm *,
+.terminal-window, .terminal-container,
+.code-block, .code-header, .prism-code,
+.katex, .katex *, .katex-display, .katex-display *,
+[class*="language-"], pre code, .font-mono,
+.app-titlebar-sub, .model-badge, .token-count, .timestamp {
   direction: ltr !important;
   text-align: left !important;
   unicode-bidi: isolate !important;
   font-family: ui-monospace, 'SFMono-Regular', 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace !important;
 }
 
-/* In-line code inside RTL prose should still be LTR and nicely spaced */
 .msg-body code:not(pre code) {
   direction: ltr;
   display: inline-block;
-  margin: 0 2px;
+  margin: 0 3px;
   vertical-align: baseline;
   unicode-bidi: isolate;
+}
+
+/* Optional RTL Quick Switch Badge in Footer/Settings */
+#hermes-rtl-toggle {
+  position: fixed;
+  bottom: 12px;
+  left: 12px;
+  z-index: 9999;
+  background: var(--surface, #1E1E2E);
+  border: 1px solid var(--border, rgba(255,255,255,0.15));
+  color: var(--text, #E0E0E0);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  cursor: pointer;
+  opacity: 0.4;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  user-select: none;
+}
+#hermes-rtl-toggle:hover {
+  opacity: 1;
+  transform: translateY(-2px);
 }
