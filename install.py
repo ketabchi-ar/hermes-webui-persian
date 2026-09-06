@@ -8,7 +8,7 @@ import os
 import shutil
 import json
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 
 def install():
     print("=" * 55)
@@ -67,7 +67,7 @@ def install():
             "fonts/Vazirmatn-SemiBold.woff2",
             "fonts/Vazirmatn-Bold.woff2"
         ],
-        "installed_at": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+        "installed_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     }
 
     with manifest_file.open("w", encoding="utf-8") as f:

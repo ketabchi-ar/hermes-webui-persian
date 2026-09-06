@@ -48,7 +48,7 @@ python3 - <<EOF
 import json
 import os
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 
 manifest_path = Path("$MANIFEST_FILE")
 manifest_path.parent.mkdir(parents=True, exist_ok=True)
@@ -74,7 +74,7 @@ data["installed"]["vazir-persian-rtl"] = {
         "fonts/Vazirmatn-SemiBold.woff2",
         "fonts/Vazirmatn-Bold.woff2"
     ],
-    "installed_at": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    "installed_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 }
 
 with open(manifest_path, "w", encoding="utf-8") as f:
