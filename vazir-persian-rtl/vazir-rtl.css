@@ -125,24 +125,95 @@ pre, code, kbd, samp,
   unicode-bidi: isolate;
 }
 
-/* Optional RTL Quick Switch Badge in Footer/Settings */
+
+/* ==========================================================================
+   Persian Localization, RTL Tooltips & Layout Fixes
+   ========================================================================== */
+
+/* 1. Hide the fixed toggle badge completely */
 #hermes-rtl-toggle {
-  position: fixed;
-  bottom: 12px;
-  left: 12px;
-  z-index: 9999;
-  background: var(--surface, #1E1E2E);
-  border: 1px solid var(--border, rgba(255,255,255,0.15));
-  color: var(--text, #E0E0E0);
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 11px;
-  cursor: pointer;
-  opacity: 0.4;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-  user-select: none;
+  display: none !important;
 }
-#hermes-rtl-toggle:hover {
-  opacity: 1;
-  transform: translateY(-2px);
+
+/* 2. Fix Tooltips in Persian / RTL */
+.has-tooltip {
+  position: relative !important;
+}
+
+.has-tooltip::after {
+  direction: rtl !important;
+  text-align: right !important;
+  font-family: 'Vazirmatn', system-ui, -apple-system, sans-serif !important;
+  font-size: 11.5px !important;
+  z-index: 100000 !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.1) !important;
+  white-space: nowrap !important;
+}
+
+/* Tooltips inside composer footer: pop UPWARD above buttons */
+.composer-footer .has-tooltip::after,
+.composer-left .has-tooltip::after,
+.mic-btn.has-tooltip::after {
+  top: auto !important;
+  bottom: calc(100% + 10px) !important;
+  left: 50% !important;
+  right: auto !important;
+  transform: translateX(-50%) !important;
+}
+
+/* Send button tooltip: flip to right (or left-safe) so it never clips */
+.send-btn.has-tooltip::after,
+.send-btn.has-tooltip--left::after {
+  top: 50% !important;
+  bottom: auto !important;
+  right: calc(100% + 10px) !important;
+  left: auto !important;
+  transform: translateY(-50%) !important;
+}
+
+/* Header buttons tooltips (like + New Conversation): anchor inward */
+.panel-head-btn.has-tooltip--bottom-right::after {
+  right: auto !important;
+  left: 0 !important;
+  top: calc(100% + 8px) !important;
+}
+
+/* Rail tooltips (vertical icon bar): pop out to the right */
+.rail .has-tooltip::after {
+  left: calc(100% + 10px) !important;
+  right: auto !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+}
+
+/* 3. Welcome Screen Suggestion Grid: 100% RTL */
+.suggestion-grid {
+  direction: rtl !important;
+}
+
+.suggestion {
+  direction: rtl !important;
+  text-align: right !important;
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.suggestion svg {
+  margin-left: 4px !important;
+  margin-right: 0 !important;
+  flex-shrink: 0 !important;
+}
+
+.suggestion:hover {
+  transform: translateX(-3px) !important;
+}
+
+/* 4. Composer text placeholder */
+textarea#msg::placeholder {
+  direction: rtl !important;
+  text-align: right !important;
+  font-family: 'Vazirmatn', system-ui, sans-serif !important;
 }
